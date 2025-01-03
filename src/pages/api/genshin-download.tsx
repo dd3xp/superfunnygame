@@ -1,4 +1,3 @@
-// src/pages/api/genshin-download.tsx
 import type { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import fs from 'fs';
@@ -17,7 +16,6 @@ export default async function handler(
     const filePath = path.join(process.cwd(), 'src', 'public', 'Genshin Impact.zip');
     console.log('2. 尝试访问文件路径:', filePath);
 
-    // 检查文件是否存在
     if (!fs.existsSync(path.join(process.cwd(), 'src'))) {
       console.log('src 目录不存在');
       return res.status(404).json({ error: 'src 目录不存在' });
@@ -33,7 +31,6 @@ export default async function handler(
 
     if (!fileExists) {
       console.log('4. 文件不存在，返回404');
-      // 列出 src/public 目录下的所有文件
       const files = fs.readdirSync(path.join(process.cwd(), 'src', 'public'));
       return res.status(404).json({ 
         error: '文件不存在',
@@ -44,19 +41,13 @@ export default async function handler(
 
     const fileStats = fs.statSync(filePath);
     console.log('5. 文件大小:', fileStats.size, '字节');
-
-    // 改用 createReadStream 来处理大文件
     const stream = fs.createReadStream(filePath);
     
-    // 设置响应头
     res.setHeader('Content-Disposition', `attachment; filename="Genshin Impact.zip"`);
     res.setHeader('Content-Type', 'application/zip');
     res.setHeader('Content-Length', fileStats.size);
     
-    // 使用流式传输
     stream.pipe(res);
-    
-    // 处理流错误
     stream.on('error', (error) => {
       console.error('流传输错误:', error);
       res.end();
