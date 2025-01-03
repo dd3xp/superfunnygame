@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack --port 5003 --hostname 0.0.0.0",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 5003 --hostname 0.0.0.0",
     "lint": "next lint"
   },
   "dependencies": {
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "typescript": "^5",
-    "@types/node": "^20",
+    "@types/node": "18.11.18",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",
